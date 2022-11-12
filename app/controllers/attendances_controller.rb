@@ -25,6 +25,10 @@ class AttendancesController < ApplicationController
   end
 
   def edit_one_month
+    unless current_user?(@user)
+    flash[:danger] = "権限がありません。"
+    redirect_to (root_url)
+    end
   end
   
   def update_one_month

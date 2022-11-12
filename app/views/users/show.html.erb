@@ -23,19 +23,23 @@
   <table class="table table-bordered table-condensed table-hover" id="table-attendances">
     <thead>
       <tr>
-        <th>日付</th>
-        <th>曜日</th>
-        <th>出社</th>
-        <th>退社</th>
+        <th rowspan="2">日付</th>
+        <th rowspan="2">曜日</th>
+        <th colspan="3">出社</th>
+        <th colspan="3">退社</th>
         <th>在社時間</th>
         <th>備考</th>
       </tr>
       
       <tr>
-        <th></th>
-        <th></th>
-        <th>時｜分</th>
-        <th>時｜分</th>
+        <td>時</td>
+        <td>分</td>
+        <td></td>
+        <td>時</td>
+        <td>分</td>
+        <td></td>
+        <td></td>
+        <td></td>
       </tr>
     </thead>
 
@@ -53,15 +57,12 @@
           <td><%= l(day.finished_at, format: :time) if day.finished_at.present? %></td>
           <td></td>
           <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
         </tr>
       <% end %>
     </tbody>
-  </table>
-</div>
-
-          
-    </tbody>
-
     <tfoot>
      <tr>
        <td colspan="2">累計日数</td>
