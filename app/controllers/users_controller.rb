@@ -4,17 +4,15 @@ class UsersController < ApplicationController
   before_action :correct_user, only: [:edit, :update]
   before_action :admin_user, only: [:index, :destroy, :edit_basic_info, :update_basic_info]
   before_action :set_one_month, only: :show
-
+  before_action :admin_or_correct, only: :show
+  
   def index
     @users = User.paginate(page: params[:page])
+    @users = @users.where('name LIKE ?', "%#{params[:search]}%") if params[:search].present?
   end
 
   def show
     @worked_sum = @attendances.where.not(started_at: nil).count
-    unless current_user?(@user)
-    flash[:danger] = "権限がありません。"
-    redirect_to (root_url)
-    end
   end
 
   def new
@@ -90,5 +88,16 @@ class UsersController < ApplicationController
     end
     
     def admin_or_correct
+      @user = User.find(params[:user_id]) if @user.blank?
+      unless current_user?(@user) || current_user.admin?
+        flash[:danger] = "編集権限がありません。"
+        redirect_to(root_url)
+      end  
+      
+    end
+    
+    def search
+    #Viewのformで取得したパラメータをモデルに渡す
+    @users = User.search(params[:search])
     end
 end
